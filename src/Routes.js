@@ -7,6 +7,7 @@ import FormCadastro from './components/FormCadastro';
 import BoasVindas from './components/BoasVindas';
 import Principal from './components/Principal';
 import AdicionarContato from './components/AdicionarContato';
+import Conversa from './components/Conversa';
 
 export default class Routes extends Component{
    
@@ -41,14 +42,18 @@ export default class Routes extends Component{
                         title="Boas-Vindas" 
                         titleStyle={styles.title}
                         hideNavBar={true} 
-                    />
-                   
+                    />                   
                     <Scene 
                         key='adicionarContato'      
                         component={AdicionarContato}      
                         title="Adicionar Contatos" 
-                        titleStyle={styles.title} 
-                        //hideNavBar={true} 
+                        titleStyle={styles.title}                         
+                    />
+                    <Scene 
+                        key='conversa'      
+                        component={Conversa}      
+                        title="Conversas" 
+                        titleStyle={styles.title}                         
                     />
                </Stack>
            </Router>
