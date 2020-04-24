@@ -52,7 +52,7 @@ export default class Routes extends Component{
                     <Scene 
                         key='conversa'      
                         component={Conversa}      
-                        title="Conversas" 
+                        title="Conversas dos Contatos"  
                         titleStyle={styles.title}                         
                     />
                </Stack>
