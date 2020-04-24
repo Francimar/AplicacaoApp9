@@ -7,7 +7,8 @@ import {
     MODIFICA_EMAIL, 
     ADICIONA_CONTATO_ERRO,
     ADICIONA_CONTATO_SUCESSO,
-    LISTA_CONTATO_USUARIO
+    LISTA_CONTATO_USUARIO,
+    MODIFICA_MENSAGEM
 } from './types';
 
 export const modificaAdicionaContatoEmail = texto => {
@@ -39,9 +40,7 @@ export const adicionaContato = email => {
                     firebase.database().ref(`/usuario_contatos/${emailUsuarioB64}`)
                         .push({ email, nome: dadosUsuario.nome })
                         .then(() => adicionaContatoSucesso(dispatch))
-                        .catch(erro => adicionaContatoErro(erro.message, dispatch))
-
-                    
+                        .catch(erro => adicionaContatoErro(erro.message, dispatch))                   
 
                 }else{
                     dispatch(
@@ -99,4 +98,20 @@ export const contatosUsuarioFetch = () => {
                 dispatch({ type: LISTA_CONTATO_USUARIO, payload: snapshot.val() })
             })
     }
+}
+
+export const modificaMensagem = texto => {
+    return ({
+        type: MODIFICA_MENSAGEM,
+        // Essa variável texto é a mesma lá do arquivo conversa
+        // recebida por parâmetro aqui
+        payload: texto
+    })
+}
+
+export const enviarMensagem = mensagem => {
+    console.log(mensagem)
+    return ({
+        type: 'teste'
+    })
 }
