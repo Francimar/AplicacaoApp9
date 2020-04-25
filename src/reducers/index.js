@@ -9,6 +9,8 @@ import {combineReducers} from 'redux';
 import AutenticacaoReducer from './AutenticacaoReducers';
 import AppReducer from './AppReducer';
 import ListaContatosReducer from './ListaContatosReducer';
+import ListaConversaReducer from './ListaConversaReducer';
+import ListaConversasReducer from './ListaConversasReducer';
 
 
 export default combineReducers ({
@@ -17,5 +19,7 @@ export default combineReducers ({
     //AutenticacaoReducer: AutenticacaoReducer,
     AutenticacaoReducer,
     AppReducer,
-    ListaContatosReducer
+    ListaContatosReducer,
+    ListaConversaReducer,
+    ListaConversasReducer
 });
