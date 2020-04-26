@@ -33,8 +33,6 @@ export const adicionaContato = email => {
                 if(snapshot.val()){
                     // email do contato a ser adicionado
                     const dadosUsuario = _.first(_.values(snapshot.val()));
-                    console.log(dadosUsuario);
-
 
                     // Recuperando o usuario autenticado
                     const { currentUser } = firebase.auth();
@@ -96,8 +94,7 @@ export const contatosUsuarioFetch = () => {
         let emailUsuarioB64 = b64.encode(currentUser.email);
 
         firebase.database().ref(`/usuario_contatos/${emailUsuarioB64}`)
-            .on("value", snapshot => {
-                //console.log(snapshot.val())
+            .on("value", snapshot => {                
                 dispatch({ type: LISTA_CONTATO_USUARIO, payload: snapshot.val() })
             })
     }
@@ -152,7 +149,7 @@ export const enviarMensagem = (mensagem, contatoNome, contatoEmail) => {
 
 export const conversaUsuarioFetch = contatoEmail => {
     const { currentUser } = firebase.auth();
-
+    
     let usuarioEmailB64 = b64.encode(currentUser.email)
     let contatoEmailB64 = b64.encode(contatoEmail)
 
@@ -166,29 +163,17 @@ export const conversaUsuarioFetch = contatoEmail => {
     }
 }
 
-export const conversasUsuarioFetch  = contatoEmail => {
+export const conversasUsuarioFetch  = () => {
 
-    const { currentUser } = firebase.auth();
-    let usuarioEmailB64 = b64.encode(currentUser.email)
-
+    const { currentUser } = firebase.auth();    
     return dispatch => {
+        let usuarioEmailB64 = b64.encode(currentUser.email);
         firebase.database().ref(`/usuario_conversas/${usuarioEmailB64}`)
-        .on("value", snapshot => {
-            dispatch({ type: LISTA_CONVERSAS_USUARIO, payload: snapshot.val() })
-            
+            .on("value", snapshot => {
+            dispatch({ type: LISTA_CONVERSAS_USUARIO, payload: snapshot.val() })            
         })
     }
-
 }
-
-
-
-
-
-
-
-
-
 
 
 

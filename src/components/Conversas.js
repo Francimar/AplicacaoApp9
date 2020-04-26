@@ -9,7 +9,7 @@ import { Actions } from 'react-native-router-flux';
 class Conversas extends Component {
 
     UNSAFE_componentWillMount() {
-        this.props.conversasUsuarioFetch(this.props.contatoEmail);
+        this.props.conversasUsuarioFetch();
         this.iniciarBaseDados(this.props.conversas);
     }
 
@@ -23,8 +23,9 @@ class Conversas extends Component {
 
     _renderItem(item){
         return(
-            <TouchableHighlight                //Alterando o titulo, Enviando nome e email para a outra tela
-                    onPress={ () => Actions.conversa({ title: item.nome, contatoNome: item.nome, contatoEmail: item.email }) }
+            <TouchableHighlight  onPress={              //Alterando o titulo, Enviando nome e email para a outra tela
+                    () => Actions.conversa({ title: item.nome, contatoNome: item.nome, contatoEmail: item.email }) } 
+                    underlayColor='#DCDCDC'
                 >
                 <View style={{flex:1, padding:20, borderBottomWidth: 1, borderColor: '#CCC'}}>
                     <Text style={{fontSize:25 }}>{item.nome}</Text>
@@ -39,7 +40,7 @@ class Conversas extends Component {
                 <FlatList 
                     data={this.fonteDeDados} 
                     keyExtractor={item => item.uid} 
-                    renderItem={ ({item}) => this._renderItem(item)}                     
+                    renderItem={ ({item}) => this._renderItem(item)}                                         
                 />
             </View>
         );
