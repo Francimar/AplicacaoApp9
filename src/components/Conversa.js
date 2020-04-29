@@ -5,7 +5,8 @@ import _ from 'lodash';
 import { View, Text, Image, TextInput, TouchableHighlight, FlatList } from 'react-native';
 // decorando uma variavel parte 2
 import { modificaMensagem, enviarMensagem, conversaUsuarioFetch } from '../actions/AppActions'; 
-import Animated from 'react-native-reanimated';
+import firebase from 'firebase';
+import b64 from 'base-64';
 
 class Conversa extends Component {
 
@@ -26,6 +27,7 @@ class Conversa extends Component {
     criaFonteDeDados( conversa ) {
         // criando uma variavel = recebendo contatos via mapeamento
         this.fonteDeDados = conversa;
+        console.log('fonte de dados: ', this.fonteDeDados)
     }
 
     _enviarMensagem() {
@@ -40,7 +42,12 @@ class Conversa extends Component {
     }
 
     _renderItem(item){
-        if(item.tipo === 'e') {
+
+        console.log('item ', item)        
+
+        const {currentUser} = firebase.auth();
+        const email = b64.encode(currentUser.email)
+        if(item.emissor === email) {
             return(
                 <View style={{alignItems: 'flex-end', marginTop: 5, paddingBottom: 5, marginLeft: 40}}>
                     <Text style={{fontSize:18, color: '#000', padding: 10, backgroundColor: '#DBF5B4', elevation: 1 }}>{item.mensagem}</Text>                    
@@ -51,7 +58,8 @@ class Conversa extends Component {
             <View style={{alignItems: 'flex-start', marginTop: 5, paddingBottom: 5, marginRight: 40}}>
                 <Text style={{fontSize:18, color: '#000', padding: 10, backgroundColor: '#F7F7F7', elevation: 1 }}>{item.mensagem}</Text>                    
             </View>
-        )}        
+        )} 
+        
     }
     
     

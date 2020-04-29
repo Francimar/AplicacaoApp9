@@ -28,10 +28,10 @@ const TabBarMenu = props => (
                     </TouchableHighlight>
                 </View>
 
-                <View style={{justifyContent: 'center'}}>
-                    <TouchableHighlight onPress={
-                        //Destruindo a seção do firebase e navegando para o login
-                        () => firebase.auth().signOut().then(() => Actions.formLogin() )}
+                <View style={{justifyContent: 'center'}}>                    
+                    <TouchableHighlight 
+                        // Fazendo logOut e indo para login
+                        onPress={() => firebase.auth().signOut().then(() => Actions.formLogin() )} 
                         underlayColor='#114D44'
                     >
                         <Text style={{ fontSize: 20, color: '#FFF'}}>Sair</Text>

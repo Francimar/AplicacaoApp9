@@ -7,7 +7,7 @@ export default (state = INITIAL_STATE, action) => {
         case LISTA_CONVERSAS_USUARIO:            
             return action.payload
         default:
-            return state
+            return state;
     }
 }
 

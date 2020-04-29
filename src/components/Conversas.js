@@ -23,8 +23,8 @@ class Conversas extends Component {
 
     _renderItem(item){
         return(
-            <TouchableHighlight  onPress={              //Alterando o titulo, Enviando nome e email para a outra tela
-                    () => Actions.conversa({ title: item.nome, contatoNome: item.nome, contatoEmail: item.email }) } 
+            <TouchableHighlight  onPress={//Alterando o titulo, Enviando nome e email para a outra tela
+                    () => Actions.conversa({ title: item.nome, contatoNome: item.nome, contatoEmail: item.email}) }
                     underlayColor='#DCDCDC'
                 >
                 <View style={{flex:1, padding:20, borderBottomWidth: 1, borderColor: '#CCC'}}>
@@ -48,7 +48,7 @@ class Conversas extends Component {
 
 }
 
-mapStateToPros = state => {
+mapStateToProps = state => {
 
     const conversas = _.map(state.ListaConversasReducer, (val,uid) => {
         return { ...val, uid};
@@ -59,4 +59,4 @@ mapStateToPros = state => {
     })
 }
 
-export default connect(mapStateToPros, { conversasUsuarioFetch })(Conversas)
+export default connect(mapStateToProps, { conversasUsuarioFetch })(Conversas)
