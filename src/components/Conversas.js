@@ -22,6 +22,7 @@ class Conversas extends Component {
     }
 
     _renderItem(item){
+        
         return(
             <TouchableHighlight  onPress={//Alterando o titulo, Enviando nome e email para a outra tela
                     () => Actions.conversa({ title: item.nome, contatoNome: item.nome, contatoEmail: item.email}) }

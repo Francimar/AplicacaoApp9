@@ -18,6 +18,7 @@ class Conversa extends Component {
     }
 
     UNSAFE_componentWillReceiveProps(nextProps){
+
         if(this.props.contatoEmail != nextProps.contatoEmail) {
             this.props.conversaUsuarioFetch(nextProps.contatoEmail)
         }
@@ -26,8 +27,7 @@ class Conversa extends Component {
 
     criaFonteDeDados( conversa ) {
         // criando uma variavel = recebendo contatos via mapeamento
-        this.fonteDeDados = conversa;
-        console.log('fonte de dados: ', this.fonteDeDados)
+        this.fonteDeDados = _.map(conversa);
     }
 
     _enviarMensagem() {
@@ -41,12 +41,11 @@ class Conversa extends Component {
         
     }
 
-    _renderItem(item){
-
-        console.log('item ', item)        
+    _renderItem(item){ 
 
         const {currentUser} = firebase.auth();
         const email = b64.encode(currentUser.email)
+        
         if(item.emissor === email) {
             return(
                 <View style={{alignItems: 'flex-end', marginTop: 5, paddingBottom: 5, marginLeft: 40}}>
@@ -58,7 +57,7 @@ class Conversa extends Component {
             <View style={{alignItems: 'flex-start', marginTop: 5, paddingBottom: 5, marginRight: 40}}>
                 <Text style={{fontSize:18, color: '#000', padding: 10, backgroundColor: '#F7F7F7', elevation: 1 }}>{item.mensagem}</Text>                    
             </View>
-        )} 
+        )}       
         
     }
     

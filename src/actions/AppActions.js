@@ -71,7 +71,6 @@ const adicionaContatoErro = (erro, dispatch) => {
 }
 
 const adicionaContatoSucesso = dispatch => (
-    //alert('Usuário Cadastrado com Sucesso'),
     dispatch(
         {
             type: ADICIONA_CONTATO_SUCESSO,
@@ -109,45 +108,6 @@ export const modificaMensagem = texto => {
     })
 }
 
-/*export const enviarMensagem = (mensagem, contatoNome, contatoEmail) => {
-    // dados do usuario
-    const { currentUser } = firebase.auth();
-    const usuarioEmail = currentUser.email; 
-
-    return dispatch => {
-
-        const usuarioEmailB64 = b64.encode(usuarioEmail)
-        const contatoEmailB64 = b64.encode(contatoEmail)
-        // COMENTED 1
-        firebase.database().ref(`/mensagens/${usuarioEmailB64}/${contatoEmailB64}`)
-            .push({ mensagem, tipo: 'e'}) // push -> incllusão de um novo registro
-            .then( () => {
-                firebase.database().ref(`/mensagens/${contatoEmailB64}/${usuarioEmailB64}`)
-                    .push({ mensagem, tipo: 'r' })
-                    .then(() => dispatch ({ type: ENVIA_MENSAGEM_SUCESSO})) 
-            })
-            .then(() => { // armazenando o cabeçalho do usuário
-                firebase.database().ref(`/usuario_conversas/${usuarioEmailB64}/${contatoEmailB64}`)
-                .set({nome: contatoNome , email: contatoEmail})  //Set ->  Ver se já existe um registro e sobre-escreve
-            })
-            .then(() => { // armazenar o cabeçalho do contato
-                // Pegando o nome do contato do banco (posso não ter aquele contato)
-                firebase.database().ref(`/contato/${usuarioEmailB64}`)
-                    .once("value")
-                    .then(snapshot => {
-                        // transformando o objeto em array com o lodash
-                        const dadosUsuario = _.first(_.values(snapshot.val()))
-
-                        firebase.database().ref(`/usuario_conversas/${contatoEmailB64}/${usuarioEmailB64}`)
-                            .set({ nome: dadosUsuario.nome, email: usuarioEmail})
-                    })
-            })
-
-    }
-    
-}*/
-
-
 // TESTANDO O BANDO DE DADOS
 export const enviarMensagem = (mensagem, contatoNome, contatoEmail) => {
     // dados do usuario
@@ -157,17 +117,17 @@ export const enviarMensagem = (mensagem, contatoNome, contatoEmail) => {
 
         const usuarioEmailB64 = b64.encode(usuarioEmail)
         const contatoEmailB64 = b64.encode(contatoEmail)
+        const emailCodificado = codificarEmail(usuarioEmail, contatoEmail);
+        console.log('email: ', emailCodificado);
+
+
         // COMENTED 1
-        firebase.database().ref(`/mensagens/${usuarioEmailB64}/${contatoEmailB64}`)
+        firebase.database().ref(`/mensagens/${emailCodificado}`)
             .push({ mensagem, emissor: usuarioEmailB64, receptor: contatoEmailB64}) // push -> incllusão de um novo registro
-            .then( () => {
-                firebase.database().ref(`/mensagens/${contatoEmailB64}/${usuarioEmailB64}`)
-                    .push({ mensagem, emissor: usuarioEmailB64, receptor: contatoEmailB64 })
-                    .then(() => dispatch ({ type: ENVIA_MENSAGEM_SUCESSO})) 
-            })
             .then(() => { // armazenando o cabeçalho do usuário
                 firebase.database().ref(`/usuario_conversas/${usuarioEmailB64}/${contatoEmailB64}`)
                 .set({nome: contatoNome , email: contatoEmail})  //Set ->  Ver se já existe um registro e sobre-escreve
+                .then(() => dispatch ({ type: ENVIA_MENSAGEM_SUCESSO}))
             })
             .then(() => { // armazenar o cabeçalho do contato
                 // Pegando o nome do contato do banco (posso não ter aquele contato)
@@ -186,14 +146,36 @@ export const enviarMensagem = (mensagem, contatoNome, contatoEmail) => {
     
 }
 
+export const codificarEmail = (usuarioEmail, contatoEmail) => {
+    alfabeto = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 
+                'j', 'l', 'k', 'm', 'n', 'o', 'p', 'q', 'r', 
+                's', 't', 'u', 'v', 'w', 'y', 'x', 'z', '@',
+                '-', '_','.']
+
+    code = ''
+
+    if (usuarioEmail.length > contatoEmail.length) {
+
+        for (let i = 0; i < usuarioEmail.length; i++) {
+            code = code + (alfabeto.indexOf(usuarioEmail[i]) + alfabeto.indexOf(contatoEmail[i]));
+        }
+    } else {
+        for (let i = 0; i < contatoEmail.length; i++) {
+            code = code + (alfabeto.indexOf(usuarioEmail[i]) + alfabeto.indexOf(contatoEmail[i]));
+        }
+    }
+
+    return code;
+}
+
 export const conversaUsuarioFetch = contatoEmail => {
     const { currentUser } = firebase.auth();
     
     let usuarioEmailB64 = b64.encode(currentUser.email)
-    let contatoEmailB64 = b64.encode(contatoEmail)
+    const emailCodificado = codificarEmail(currentUser.email, contatoEmail);
 
     return dispatch => {
-        firebase.database().ref(`/mensagens/${usuarioEmailB64}/${contatoEmailB64}`)
+        firebase.database().ref(`/mensagens/${emailCodificado}`)
             // como é o on, vai ficar escutando o bando e sempre que houver mudança nas
             // conversas, ele vai disparar essa action
             .on("value", snapshot => {

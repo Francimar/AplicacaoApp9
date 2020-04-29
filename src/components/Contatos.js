@@ -28,17 +28,17 @@ class Contatos extends Component {
 
     listandoItens(item) {
         
-            return (
-                <TouchableHighlight                //Alterando o titulo, Enviando nome e email para a outra tela
-                    onPress={ () => Actions.conversa({ title: item.nome, contatoNome: item.nome, contatoEmail: item.email }) }
-                    underlayColor='#DCDCDC'
-                >
-                    <View style={{flex:1, padding:20, borderBottomWidth: 1, borderColor: '#CCC'}}>
-                        <Text style={{fontSize:25 }}>{item.nome}</Text>
-                        <Text style={{fontSize:18 }}>{item.email}</Text>
-                    </View>
-                </TouchableHighlight> 
-            )
+        return (
+            <TouchableHighlight                //Alterando o titulo, Enviando nome e email para a outra tela
+                onPress={ () => Actions.conversa({ title: item.nome, contatoNome: item.nome, contatoEmail: item.email }) }
+                underlayColor='#DCDCDC'
+            >
+                <View style={{flex:1, padding:20, borderBottomWidth: 1, borderColor: '#CCC'}}>
+                    <Text style={{fontSize:25 }}>{item.nome}</Text>
+                    <Text style={{fontSize:18 }}>{item.email}</Text>
+                </View>
+            </TouchableHighlight> 
+        )
     }
 
     render() {
